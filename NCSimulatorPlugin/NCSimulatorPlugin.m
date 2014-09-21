@@ -54,7 +54,7 @@ static NSString *const kRSImageOptimPluginAutoKey = @"com.pdq.rsimageoptimplugin
         // create a new menu and add a new item
         simulator = [[NSMenu alloc] initWithTitle:@"Simulator"];
         // add the newly created menu to the main menu bar
-        NSMenuItem *newMenuItem = [[NSMenuItem alloc] initWithTitle:@"Simulator Sub Menu" action:NULL keyEquivalent:@""];
+        NSMenuItem *newMenuItem = [[NSMenuItem alloc] initWithTitle:@"Simulator" action:NULL keyEquivalent:@""];
         [newMenuItem setSubmenu:simulator];
         [mainMenu addItem:newMenuItem];
         [self setMenuItems];
@@ -92,17 +92,25 @@ static NSString *const kRSImageOptimPluginAutoKey = @"com.pdq.rsimageoptimplugin
     NSString *name = [NCUtils targetDeviceName] ;
     
     if(name == nil || name.length == 0)
-        name = @"Refresh";
+        name = @"No device found";
     else
-        name = [NSString stringWithFormat:@"Refesh %@",name];
+        name = [NSString stringWithFormat:@"%@",name];
     
     
-    NSMenuItem *goToDocuments = [[NSMenuItem alloc] initWithTitle:name action:@selector(refresh:) keyEquivalent:@""];
-    [goToDocuments setTarget:self];
-    [simulator addItem:goToDocuments];
+    NSMenuItem *item = [[NSMenuItem alloc] initWithTitle:name action:nil keyEquivalent:@""];
+    //[item setTarget:self];
+    [simulator addItem:item];
     
     
     NSMenuItem * separatorItem = [NSMenuItem separatorItem];
+    [simulator addItem:separatorItem];
+    
+    item = [[NSMenuItem alloc] initWithTitle:@"Refresh" action:@selector(refresh:) keyEquivalent:@""];
+    [item setTarget:self];
+    [simulator addItem:item];
+    
+    
+    separatorItem = [NSMenuItem separatorItem];
     [simulator addItem:separatorItem];
     
     
