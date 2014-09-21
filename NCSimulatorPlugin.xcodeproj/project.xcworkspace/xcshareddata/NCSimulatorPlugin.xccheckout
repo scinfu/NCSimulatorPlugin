@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>8BD2B3F7-90D9-44C8-A4A8-FC47CD7F648E</string>
+	<key>IDESourceControlProjectName</key>
+	<string>NCSimulatorPlugin</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>23EFE9DE9622FBFC1DCF603470DDBA203BEDC6ED</key>
+		<string>https://github.com/scinfu/NCSimulatorPlugin.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>NCSimulatorPlugin.xcodeproj</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>23EFE9DE9622FBFC1DCF603470DDBA203BEDC6ED</key>
+		<string>../..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>https://github.com/scinfu/NCSimulatorPlugin.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>111</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>23EFE9DE9622FBFC1DCF603470DDBA203BEDC6ED</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>23EFE9DE9622FBFC1DCF603470DDBA203BEDC6ED</string>
+			<key>IDESourceControlWCCName</key>
+			<string>NCSimulatorPlugin</string>
+		</dict>
+	</array>
+</dict>
+</plist>

@@ -1,0 +1,317 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		8C4CA05B19CE018C0029927D /* NCAppFolder.m in Sources */ = {isa = PBXBuildFile; fileRef = 8C4CA05A19CE018C0029927D /* NCAppFolder.m */; };
+		D000C08518F4F71100C08A62 /* NCUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = D000C08418F4F71100C08A62 /* NCUtils.m */; };
+		D0F7B0E418F4EFF10099D3BF /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D0F7B0E318F4EFF10099D3BF /* AppKit.framework */; };
+		D0F7B0E618F4EFF10099D3BF /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D0F7B0E518F4EFF10099D3BF /* Foundation.framework */; };
+		D0F7B0EF18F4EFF10099D3BF /* NCSimulatorPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = D0F7B0EE18F4EFF10099D3BF /* NCSimulatorPlugin.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		8C00174B19CE468100C22D03 /* DVTKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DVTKit.h; sourceTree = "<group>"; };
+		8C00174C19CE46B600C22D03 /* DVTFoundation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DVTFoundation.h; sourceTree = "<group>"; };
+		8C4CA05919CE018C0029927D /* NCAppFolder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NCAppFolder.h; sourceTree = "<group>"; };
+		8C4CA05A19CE018C0029927D /* NCAppFolder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NCAppFolder.m; sourceTree = "<group>"; };
+		D000C08318F4F71100C08A62 /* NCUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NCUtils.h; sourceTree = "<group>"; };
+		D000C08418F4F71100C08A62 /* NCUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NCUtils.m; sourceTree = "<group>"; };
+		D000C09A18F4FF7B00C08A62 /* IDEFoundation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IDEFoundation.h; sourceTree = "<group>"; };
+		D000C09B18F4FF7B00C08A62 /* IDEKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IDEKit.h; sourceTree = "<group>"; };
+		D000C09C18F4FF7B00C08A62 /* IDESourceEditor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IDESourceEditor.h; sourceTree = "<group>"; };
+		D0F7B0E018F4EFF10099D3BF /* NCSimulatorPlugin.xcplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NCSimulatorPlugin.xcplugin; sourceTree = BUILT_PRODUCTS_DIR; };
+		D0F7B0E318F4EFF10099D3BF /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
+		D0F7B0E518F4EFF10099D3BF /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		D0F7B0E918F4EFF10099D3BF /* NCSimulatorPlugin-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "NCSimulatorPlugin-Info.plist"; sourceTree = "<group>"; };
+		D0F7B0ED18F4EFF10099D3BF /* NCSimulatorPlugin.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NCSimulatorPlugin.h; sourceTree = "<group>"; };
+		D0F7B0EE18F4EFF10099D3BF /* NCSimulatorPlugin.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NCSimulatorPlugin.m; sourceTree = "<group>"; };
+		D0F7B0F018F4EFF10099D3BF /* NCSimulatorPlugin-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NCSimulatorPlugin-Prefix.pch"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		D0F7B0DD18F4EFF10099D3BF /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D0F7B0E418F4EFF10099D3BF /* AppKit.framework in Frameworks */,
+				D0F7B0E618F4EFF10099D3BF /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		D000C09718F4FF7B00C08A62 /* XcodeClasses */ = {
+			isa = PBXGroup;
+			children = (
+				8C00174B19CE468100C22D03 /* DVTKit.h */,
+				8C00174C19CE46B600C22D03 /* DVTFoundation.h */,
+				D000C09A18F4FF7B00C08A62 /* IDEFoundation.h */,
+				D000C09B18F4FF7B00C08A62 /* IDEKit.h */,
+				D000C09C18F4FF7B00C08A62 /* IDESourceEditor.h */,
+			);
+			path = XcodeClasses;
+			sourceTree = "<group>";
+		};
+		D0F7B0D718F4EFF00099D3BF = {
+			isa = PBXGroup;
+			children = (
+				D0F7B0E718F4EFF10099D3BF /* NCSimulator */,
+				D0F7B0E218F4EFF10099D3BF /* Frameworks */,
+				D0F7B0E118F4EFF10099D3BF /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		D0F7B0E118F4EFF10099D3BF /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				D0F7B0E018F4EFF10099D3BF /* NCSimulatorPlugin.xcplugin */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		D0F7B0E218F4EFF10099D3BF /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				D0F7B0E318F4EFF10099D3BF /* AppKit.framework */,
+				D0F7B0E518F4EFF10099D3BF /* Foundation.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		D0F7B0E718F4EFF10099D3BF /* NCSimulator */ = {
+			isa = PBXGroup;
+			children = (
+				D000C09718F4FF7B00C08A62 /* XcodeClasses */,
+				D000C08318F4F71100C08A62 /* NCUtils.h */,
+				D000C08418F4F71100C08A62 /* NCUtils.m */,
+				D0F7B0ED18F4EFF10099D3BF /* NCSimulatorPlugin.h */,
+				D0F7B0EE18F4EFF10099D3BF /* NCSimulatorPlugin.m */,
+				8C4CA05919CE018C0029927D /* NCAppFolder.h */,
+				8C4CA05A19CE018C0029927D /* NCAppFolder.m */,
+				D0F7B0E818F4EFF10099D3BF /* Supporting Files */,
+			);
+			name = NCSimulator;
+			path = NCSimulatorPlugin;
+			sourceTree = "<group>";
+		};
+		D0F7B0E818F4EFF10099D3BF /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				D0F7B0E918F4EFF10099D3BF /* NCSimulatorPlugin-Info.plist */,
+				D0F7B0F018F4EFF10099D3BF /* NCSimulatorPlugin-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		D0F7B0DF18F4EFF10099D3BF /* NCSimulatorPlugin */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D0F7B0F318F4EFF10099D3BF /* Build configuration list for PBXNativeTarget "NCSimulatorPlugin" */;
+			buildPhases = (
+				D0F7B0DC18F4EFF10099D3BF /* Sources */,
+				D0F7B0DD18F4EFF10099D3BF /* Frameworks */,
+				D0F7B0DE18F4EFF10099D3BF /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = NCSimulatorPlugin;
+			productName = RSImageOptimPlugin;
+			productReference = D0F7B0E018F4EFF10099D3BF /* NCSimulatorPlugin.xcplugin */;
+			productType = "com.apple.product-type.bundle";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		D0F7B0D818F4EFF00099D3BF /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				CLASSPREFIX = NC;
+				LastUpgradeCheck = 0510;
+				ORGANIZATIONNAME = "Nabil Chatbi";
+			};
+			buildConfigurationList = D0F7B0DB18F4EFF00099D3BF /* Build configuration list for PBXProject "NCSimulatorPlugin" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = D0F7B0D718F4EFF00099D3BF;
+			productRefGroup = D0F7B0E118F4EFF10099D3BF /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				D0F7B0DF18F4EFF10099D3BF /* NCSimulatorPlugin */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		D0F7B0DE18F4EFF10099D3BF /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		D0F7B0DC18F4EFF10099D3BF /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D000C08518F4F71100C08A62 /* NCUtils.m in Sources */,
+				D0F7B0EF18F4EFF10099D3BF /* NCSimulatorPlugin.m in Sources */,
+				8C4CA05B19CE018C0029927D /* NCAppFolder.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		D0F7B0F118F4EFF10099D3BF /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		D0F7B0F218F4EFF10099D3BF /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		D0F7B0F418F4EFF10099D3BF /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				DEPLOYMENT_LOCATION = YES;
+				DSTROOT = "$(HOME)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SYSTEM_APPS_DIR)/Xcode.app/Contents/SharedFrameworks",
+					"$(SYSTEM_APPS_DIR)/Xcode.app/Contents/Frameworks",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "NCSimulatorPlugin/NCSimulatorPlugin-Prefix.pch";
+				INFOPLIST_FILE = "NCSimulatorPlugin/NCSimulatorPlugin-Info.plist";
+				INSTALL_PATH = "/Library/Application Support/Developer/Shared/Xcode/Plug-ins";
+				PRODUCT_NAME = NCSimulatorPlugin;
+				WRAPPER_EXTENSION = xcplugin;
+			};
+			name = Debug;
+		};
+		D0F7B0F518F4EFF10099D3BF /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				DEPLOYMENT_LOCATION = YES;
+				DSTROOT = "$(HOME)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SYSTEM_APPS_DIR)/Xcode.app/Contents/SharedFrameworks",
+					"$(SYSTEM_APPS_DIR)/Xcode.app/Contents/Frameworks",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "NCSimulatorPlugin/NCSimulatorPlugin-Prefix.pch";
+				INFOPLIST_FILE = "NCSimulatorPlugin/NCSimulatorPlugin-Info.plist";
+				INSTALL_PATH = "/Library/Application Support/Developer/Shared/Xcode/Plug-ins";
+				PRODUCT_NAME = NCSimulatorPlugin;
+				WRAPPER_EXTENSION = xcplugin;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		D0F7B0DB18F4EFF00099D3BF /* Build configuration list for PBXProject "NCSimulatorPlugin" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D0F7B0F118F4EFF10099D3BF /* Debug */,
+				D0F7B0F218F4EFF10099D3BF /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		D0F7B0F318F4EFF10099D3BF /* Build configuration list for PBXNativeTarget "NCSimulatorPlugin" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D0F7B0F418F4EFF10099D3BF /* Debug */,
+				D0F7B0F518F4EFF10099D3BF /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = D0F7B0D818F4EFF00099D3BF /* Project object */;
+}
