@@ -18,7 +18,8 @@ static NCSimulatorPlugin *sharedPlugin;
 @interface NCSimulatorPlugin()
 {
     NSMenu *simulator ;
-    NSArray * applications;
+    NSMutableArray * applications;
+    NCAppFolder *currentApp;
 }
 
 @property (nonatomic, strong) NSBundle *bundle;
@@ -49,6 +50,7 @@ static NSString *const kRSImageOptimPluginAutoKey = @"com.pdq.rsimageoptimplugin
 {
     if (self = [super init]) {
         self.bundle = plugin;
+        applications = [NSMutableArray array];
         
         NSMenu *mainMenu = [NSApp mainMenu];
         // create a new menu and add a new item
@@ -57,21 +59,75 @@ static NSString *const kRSImageOptimPluginAutoKey = @"com.pdq.rsimageoptimplugin
         NSMenuItem *newMenuItem = [[NSMenuItem alloc] initWithTitle:@"Simulator" action:NULL keyEquivalent:@""];
         [newMenuItem setSubmenu:simulator];
         [mainMenu addItem:newMenuItem];
-        [self setMenuItems];
         
-        
-        __weak typeof(self)weakSelf = self;        
-        
-        [[NSNotificationCenter defaultCenter] addObserverForName:NSWindowDidUpdateNotification object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification *note) {
-            //[weakSelf refresh:nil];
-        }];
-        
+        NSMenuItem *item = [[NSMenuItem alloc] initWithTitle:@"Initialize" action:@selector(userStart) keyEquivalent:@""];
+        [item setTarget:self];
+        [simulator addItem:item];
     }
     return self;
 }
 
--(void)setMenuItems {
+- (void)userStart
+{
+     __weak typeof(self)weakSelf = self;
+    [[NSNotificationCenter defaultCenter] addObserverForName:NSWindowDidBecomeKeyNotification object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification *note) {
+        [weakSelf refresh:nil];
+    }];
     
+    [[NSNotificationCenter defaultCenter] addObserverForName:NSWindowDidBecomeMainNotification object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification *note) {
+        [weakSelf refresh:nil];
+    }];
+    
+    
+    
+    [[NSNotificationCenter defaultCenter] addObserverForName:NSWindowDidResignKeyNotification object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification *note) {
+        [weakSelf refresh:nil];
+    }];
+    
+    [[NSNotificationCenter defaultCenter] addObserverForName:NSWindowDidEndSheetNotification object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification *note) {
+        [weakSelf refresh:nil];
+    }];
+    
+    
+    [[NSNotificationCenter defaultCenter] addObserverForName:@"IDEBuildOperationDidStopNotification" object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification *note) {
+        [weakSelf refresh:nil];
+    }];
+    
+    
+    [[NSNotificationCenter defaultCenter] addObserverForName:@"ExecutionEnvironmentLastBuildCompletedNotification" object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification *note) {
+        [weakSelf refresh:nil];
+    }];
+    
+    [[NSNotificationCenter defaultCenter] addObserverForName:@"IDEBuildOperationDidGenerateOutputFilesNotification" object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification *note) {
+        [weakSelf refresh:nil];
+    }];
+    
+    [[NSNotificationCenter defaultCenter] addObserverForName:@"IDECurrentLaunchSessionTargetOutputChanged" object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification *note) {
+        [weakSelf refresh:nil];
+    }];
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    [self refresh:nil];
+}
+
+
+- (void)addMenuApp:(NCAppFolder*)app index:(int)i
+{
+    
+}
+
+-(void)setMenuItems:(NSDictionary*)userInfo {
+    
+    NSString *bundle = [userInfo objectForKey:@"CFBundleIdentifier"];
+    NSString *appName = [userInfo objectForKey:@"CFBundleName"];
     
     NSMenu *menu = simulator;
     
@@ -98,7 +154,6 @@ static NSString *const kRSImageOptimPluginAutoKey = @"com.pdq.rsimageoptimplugin
     
     
     NSMenuItem *item = [[NSMenuItem alloc] initWithTitle:name action:nil keyEquivalent:@""];
-    //[item setTarget:self];
     [simulator addItem:item];
     
     
@@ -118,39 +173,92 @@ static NSString *const kRSImageOptimPluginAutoKey = @"com.pdq.rsimageoptimplugin
     
     if(simulatorIdentifier)
     {
-        applications = [NCAppFolder applicationsforSimulator:simulatorIdentifier];
+        NSArray *items = [NCAppFolder applicationsforSimulator:simulatorIdentifier];
+        [applications removeAllObjects];
+        [applications addObjectsFromArray:items];
+        
+        
+        // find current bundle identifier in array apps and create a menu
         int i = 0;
         for(NCAppFolder *app in applications)
         {
-            NSMenu *submenu = [[NSMenu alloc] initWithTitle:@"a menu"];
-            // add the newly created menu to the main menu bar
-            NSMenuItem *newMenuItem = [[NSMenuItem alloc] initWithTitle:[app bundleIdentifier] action:NULL keyEquivalent:@""];
-            [newMenuItem setSubmenu:submenu];
-            [simulator addItem:newMenuItem];
-            
-            
-            NSMenuItem *goToDocuments = [[NSMenuItem alloc] initWithTitle:@"Go To Documents" action:@selector(goToDocuments:) keyEquivalent:@""];
-            [goToDocuments setTarget:self];
-            [goToDocuments setTag:i];
-            [submenu addItem:goToDocuments];
-            
-            
-            
-            NSMenuItem *goToApplication = [[NSMenuItem alloc] initWithTitle:@"Go To Application" action:@selector(goToApplication:) keyEquivalent:@""];
-            [goToApplication setTarget:self];
-            [goToApplication setTag:i];
-            [submenu addItem:goToApplication];
-            
+            if([app.bundleIdentifier isEqualToString:bundle])
+            {
+                separatorItem = [NSMenuItem separatorItem];
+                [simulator addItem:separatorItem];
+                
+                item = [[NSMenuItem alloc] initWithTitle:@"Current App" action:NULL keyEquivalent:@""];
+                [simulator addItem:item];
+                
+                NSMenu *submenu = [[NSMenu alloc] initWithTitle:@""];
+                // add the newly created menu to the main menu bar
+                NSMenuItem *newMenuItem = [[NSMenuItem alloc] initWithTitle:appName?appName:[app bundleIdentifier] action:NULL keyEquivalent:@""];
+                [newMenuItem setSubmenu:submenu];
+                [simulator addItem:newMenuItem];
+                
+                
+                NSMenuItem *goToDocuments = [[NSMenuItem alloc] initWithTitle:@"Go To Documents" action:@selector(goToDocuments:) keyEquivalent:@""];
+                [goToDocuments setTarget:self];
+                [goToDocuments setTag:i];
+                [submenu addItem:goToDocuments];
+                
+                
+                
+                NSMenuItem *goToApplication = [[NSMenuItem alloc] initWithTitle:@"Go To Application" action:@selector(goToApplication:) keyEquivalent:@""];
+                [goToApplication setTarget:self];
+                [goToApplication setTag:i];
+                [submenu addItem:goToApplication];
+                
+                break;
+            }
+        }
+        
+        
+        // separator for Other apps
+        separatorItem = [NSMenuItem separatorItem];
+        [simulator addItem:separatorItem];
+        
+        item = [[NSMenuItem alloc] initWithTitle:@"Other Apps" action:NULL keyEquivalent:@""];
+        [simulator addItem:item];
+        
+        
+        i = 0;
+        for(NCAppFolder *app in applications)
+        {
+            if(bundle == nil || ![app.bundleIdentifier isEqualToString:bundle])
+            {
+                NSMenu *submenu = [[NSMenu alloc] initWithTitle:@"a menu"];
+                // add the newly created menu to the main menu bar
+                NSMenuItem *newMenuItem = [[NSMenuItem alloc] initWithTitle:[app bundleIdentifier] action:NULL keyEquivalent:@""];
+                [newMenuItem setSubmenu:submenu];
+                [simulator addItem:newMenuItem];
+                
+                
+                NSMenuItem *goToDocuments = [[NSMenuItem alloc] initWithTitle:@"Go To Documents" action:@selector(goToDocuments:) keyEquivalent:@""];
+                [goToDocuments setTarget:self];
+                [goToDocuments setTag:i];
+                [submenu addItem:goToDocuments];
+                
+                
+                
+                NSMenuItem *goToApplication = [[NSMenuItem alloc] initWithTitle:@"Go To Application" action:@selector(goToApplication:) keyEquivalent:@""];
+                [goToApplication setTarget:self];
+                [goToApplication setTag:i];
+                [submenu addItem:goToApplication];
+            }            
             i++;
         }
     }
+    
 }
 
 -(void)refresh:(id)sender
 {
-    [self setMenuItems];
-    
-    [NCUtils doHelp];
+    __weak typeof(self)weakSelf = self;
+    [NCUtils getUserInfo:^(NSDictionary *userInfo)
+     {
+         [weakSelf setMenuItems:userInfo];
+     }];
 }
 
 
@@ -164,12 +272,6 @@ static NSString *const kRSImageOptimPluginAutoKey = @"com.pdq.rsimageoptimplugin
     NCAppFolder * app = [applications objectAtIndex:sender.tag];
     [app openApplicationDirectory];
 }
-
-
-
-
-
-
 
 
 

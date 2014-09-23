@@ -88,10 +88,8 @@
 //}
 
 
-+ (void)doHelp
++ (void)getUserInfo:(GetUserInfo)block
 {
-    //@"/Users/scinfu/Desktop/test"
-    
     if([[self class]workspaceDirectoryPath])
     {
         [[self class]runShellCommand:@"/Applications/Xcode.app/Contents/Developer/usr/bin/xcodebuild" withArgs:@[@"-showBuildSettings"] directory:[[self class]workspaceDirectoryPath] completion:^(NSTask *t, NSString *standardOutput, NSString *standardErr) {
@@ -114,26 +112,22 @@
                 NSString * INFOPLIST_PATH = [dict objectForKey:@"INFOPLIST_PATH"];
 
                 IDEWorkspace *workspace = [NCUtils workspaceForKeyWindow];
-                IDEWorkspaceArena * workspaceArena = [workspace workspaceArena];
+//                IDEWorkspaceArena * workspaceArena = [workspace workspaceArena];
                 IDERunContextManager * runContextManager = [workspace valueForKey:@"runContextManager"];
                 IDEScheme *activeScheme = [runContextManager valueForKey:@"activeRunContext"];
-                IDERunDestination * activeRunDestination = runContextManager.activeRunDestination;
+//                IDERunDestination * activeRunDestination = runContextManager.activeRunDestination;
                 
                 NSString * buildConfiguration = activeScheme.launchSchemeAction.buildConfiguration;
-                
-                
                 NSString *path = [NSString stringWithFormat:@"%@/%@-iphonesimulator/%@",BUILD_DIR,buildConfiguration,INFOPLIST_PATH];
-                
                 NSDictionary *d = [NSDictionary dictionaryWithContentsOfFile:path];
-                NSString *bundle = [d objectForKey:@"CFBundleIdentifier"];
+//                NSString *bundle = [d objectForKey:@"CFBundleIdentifier"];
+//                NSAlert *alert = [[NSAlert alloc] init];
+//                [alert setAlertStyle:NSInformationalAlertStyle];
+//                [alert setMessageText:@"help"];
+//                [alert setInformativeText:[NSString stringWithFormat:@"%@",bundle]];
+//                [alert runModal];
                 
-                
-                NSAlert *alert = [[NSAlert alloc] init];
-                [alert setAlertStyle:NSInformationalAlertStyle];
-                [alert setMessageText:@"help"];
-                [alert setInformativeText:[NSString stringWithFormat:@"%@",bundle]];
-                [alert runModal];
-                
+                block(d);
                 
             }];
 
@@ -185,92 +179,6 @@
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//- (NSString *)appName
-//{
-//    IDEWorkspace *workspace = [NCUtils workspaceForKeyWindow];
-//    IDEWorkspaceArena * workspaceArena = [workspace workspaceArena];
-//    IDERunContextManager * runContextManager = [workspace valueForKey:@"runContextManager"];
-//    IDEScheme *activeScheme = [runContextManager valueForKey:@"activeRunContext"];
-//    IDERunDestination * activeRunDestination = runContextManager.activeRunDestination;
-//    return nil;
-//}
-
-
-
-
-
-
-//#pragma mark - Notification
-//- (void)registerNotifications
-//{
-//    NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
-//
-//    [notificationCenter addObserver:self
-//                           selector:@selector(applicationDidFinishLaunching:)
-//                               name:NSApplicationDidFinishLaunchingNotification
-//                             object:NSApp];
-//
-//    [notificationCenter addObserver:self
-//                           selector:@selector(windowDidUpdate:)
-//                               name:NSWindowDidUpdateNotification
-//                             object:nil];
-//}
-//
-//- (void)unregisterNotifications
-//{
-//    [[NSNotificationCenter defaultCenter] removeObserver:self];
-//}
-//
-//- (void)applicationDidFinishLaunching:(NSNotification *)notification
-//{
-//    // Application did finish launching is only send once. We do not need it anymore.
-//    NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
-//    [notificationCenter removeObserver:self
-//                                  name:NSApplicationDidFinishLaunchingNotification
-//                                object:NSApp];
-//
-//    [self setupMenu];
-//}
-//
-//- (void)windowDidUpdate:(NSNotification *)notification
-//{
-//    [[FTGEnvironmentManager sharedManager] handleWindowDidUpdate:notification];
-//}
 
 
 @end

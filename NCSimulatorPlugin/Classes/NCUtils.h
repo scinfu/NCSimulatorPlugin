@@ -10,15 +10,12 @@
 
 @class IDEWorkspaceWindowController;
 
+typedef void (^GetUserInfo)(NSDictionary* userInfo);
+
 @interface NCUtils : NSObject
 
 + (NSString*)simulatorIdentifier;
-+ (NSString *)targetDeviceName;
-
-void alert(NSString *title , NSString * string);
-
-
-
-+ (void)doHelp;
++ (NSString*)targetDeviceName;
++ (void)getUserInfo:(GetUserInfo)block;
 
 @end
