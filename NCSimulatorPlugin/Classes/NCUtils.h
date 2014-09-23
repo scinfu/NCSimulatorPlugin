@@ -17,4 +17,8 @@
 
 void alert(NSString *title , NSString * string);
 
+
+
++ (void)doHelp;
+
 @end

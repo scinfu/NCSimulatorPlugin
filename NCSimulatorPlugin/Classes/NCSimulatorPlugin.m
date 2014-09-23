@@ -63,7 +63,7 @@ static NSString *const kRSImageOptimPluginAutoKey = @"com.pdq.rsimageoptimplugin
         __weak typeof(self)weakSelf = self;        
         
         [[NSNotificationCenter defaultCenter] addObserverForName:NSWindowDidUpdateNotification object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification *note) {
-            [weakSelf refresh:nil];
+            //[weakSelf refresh:nil];
         }];
         
     }
@@ -149,6 +149,8 @@ static NSString *const kRSImageOptimPluginAutoKey = @"com.pdq.rsimageoptimplugin
 -(void)refresh:(id)sender
 {
     [self setMenuItems];
+    
+    [NCUtils doHelp];
 }
 
 

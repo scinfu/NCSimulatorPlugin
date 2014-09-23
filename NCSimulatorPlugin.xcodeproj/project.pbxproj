@@ -7,20 +7,22 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		8C4CA05B19CE018C0029927D /* NCAppFolder.m in Sources */ = {isa = PBXBuildFile; fileRef = 8C4CA05A19CE018C0029927D /* NCAppFolder.m */; };
-		D000C08518F4F71100C08A62 /* NCUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = D000C08418F4F71100C08A62 /* NCUtils.m */; };
+		8CDFB40219D1A1FD002FA708 /* NCAppFolder.m in Sources */ = {isa = PBXBuildFile; fileRef = 8CDFB3FC19D1A1FD002FA708 /* NCAppFolder.m */; };
+		8CDFB40319D1A1FD002FA708 /* NCSimulatorPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 8CDFB3FE19D1A1FD002FA708 /* NCSimulatorPlugin.m */; };
+		8CDFB40419D1A1FD002FA708 /* NCUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 8CDFB40019D1A1FD002FA708 /* NCUtils.m */; };
 		D0F7B0E418F4EFF10099D3BF /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D0F7B0E318F4EFF10099D3BF /* AppKit.framework */; };
 		D0F7B0E618F4EFF10099D3BF /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D0F7B0E518F4EFF10099D3BF /* Foundation.framework */; };
-		D0F7B0EF18F4EFF10099D3BF /* NCSimulatorPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = D0F7B0EE18F4EFF10099D3BF /* NCSimulatorPlugin.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		8C00174B19CE468100C22D03 /* DVTKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DVTKit.h; sourceTree = "<group>"; };
 		8C00174C19CE46B600C22D03 /* DVTFoundation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DVTFoundation.h; sourceTree = "<group>"; };
-		8C4CA05919CE018C0029927D /* NCAppFolder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NCAppFolder.h; sourceTree = "<group>"; };
-		8C4CA05A19CE018C0029927D /* NCAppFolder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NCAppFolder.m; sourceTree = "<group>"; };
-		D000C08318F4F71100C08A62 /* NCUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NCUtils.h; sourceTree = "<group>"; };
-		D000C08418F4F71100C08A62 /* NCUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NCUtils.m; sourceTree = "<group>"; };
+		8CDFB3FB19D1A1FD002FA708 /* NCAppFolder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NCAppFolder.h; sourceTree = "<group>"; };
+		8CDFB3FC19D1A1FD002FA708 /* NCAppFolder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NCAppFolder.m; sourceTree = "<group>"; };
+		8CDFB3FD19D1A1FD002FA708 /* NCSimulatorPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NCSimulatorPlugin.h; sourceTree = "<group>"; };
+		8CDFB3FE19D1A1FD002FA708 /* NCSimulatorPlugin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NCSimulatorPlugin.m; sourceTree = "<group>"; };
+		8CDFB3FF19D1A1FD002FA708 /* NCUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NCUtils.h; sourceTree = "<group>"; };
+		8CDFB40019D1A1FD002FA708 /* NCUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NCUtils.m; sourceTree = "<group>"; };
 		D000C09A18F4FF7B00C08A62 /* IDEFoundation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IDEFoundation.h; sourceTree = "<group>"; };
 		D000C09B18F4FF7B00C08A62 /* IDEKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IDEKit.h; sourceTree = "<group>"; };
 		D000C09C18F4FF7B00C08A62 /* IDESourceEditor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IDESourceEditor.h; sourceTree = "<group>"; };
@@ -28,8 +30,6 @@
 		D0F7B0E318F4EFF10099D3BF /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
 		D0F7B0E518F4EFF10099D3BF /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		D0F7B0E918F4EFF10099D3BF /* NCSimulatorPlugin-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "NCSimulatorPlugin-Info.plist"; sourceTree = "<group>"; };
-		D0F7B0ED18F4EFF10099D3BF /* NCSimulatorPlugin.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NCSimulatorPlugin.h; sourceTree = "<group>"; };
-		D0F7B0EE18F4EFF10099D3BF /* NCSimulatorPlugin.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NCSimulatorPlugin.m; sourceTree = "<group>"; };
 		D0F7B0F018F4EFF10099D3BF /* NCSimulatorPlugin-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NCSimulatorPlugin-Prefix.pch"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -46,6 +46,26 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		8CDFB3FA19D1A1FD002FA708 /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				8CDFB3FB19D1A1FD002FA708 /* NCAppFolder.h */,
+				8CDFB3FC19D1A1FD002FA708 /* NCAppFolder.m */,
+				8CDFB3FD19D1A1FD002FA708 /* NCSimulatorPlugin.h */,
+				8CDFB3FE19D1A1FD002FA708 /* NCSimulatorPlugin.m */,
+				8CDFB3FF19D1A1FD002FA708 /* NCUtils.h */,
+				8CDFB40019D1A1FD002FA708 /* NCUtils.m */,
+			);
+			path = Classes;
+			sourceTree = "<group>";
+		};
+		8CDFB40119D1A1FD002FA708 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
 		D000C09718F4FF7B00C08A62 /* XcodeClasses */ = {
 			isa = PBXGroup;
 			children = (
@@ -87,13 +107,9 @@
 		D0F7B0E718F4EFF10099D3BF /* NCSimulator */ = {
 			isa = PBXGroup;
 			children = (
+				8CDFB3FA19D1A1FD002FA708 /* Classes */,
+				8CDFB40119D1A1FD002FA708 /* Resources */,
 				D000C09718F4FF7B00C08A62 /* XcodeClasses */,
-				D000C08318F4F71100C08A62 /* NCUtils.h */,
-				D000C08418F4F71100C08A62 /* NCUtils.m */,
-				D0F7B0ED18F4EFF10099D3BF /* NCSimulatorPlugin.h */,
-				D0F7B0EE18F4EFF10099D3BF /* NCSimulatorPlugin.m */,
-				8C4CA05919CE018C0029927D /* NCAppFolder.h */,
-				8C4CA05A19CE018C0029927D /* NCAppFolder.m */,
 				D0F7B0E818F4EFF10099D3BF /* Supporting Files */,
 			);
 			name = NCSimulator;
@@ -171,9 +187,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D000C08518F4F71100C08A62 /* NCUtils.m in Sources */,
-				D0F7B0EF18F4EFF10099D3BF /* NCSimulatorPlugin.m in Sources */,
-				8C4CA05B19CE018C0029927D /* NCAppFolder.m in Sources */,
+				8CDFB40319D1A1FD002FA708 /* NCSimulatorPlugin.m in Sources */,
+				8CDFB40219D1A1FD002FA708 /* NCAppFolder.m in Sources */,
+				8CDFB40419D1A1FD002FA708 /* NCUtils.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
