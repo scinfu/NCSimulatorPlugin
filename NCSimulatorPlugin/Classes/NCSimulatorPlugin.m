@@ -69,15 +69,15 @@ static NSString *const kRSImageOptimPluginAutoKey = @"com.pdq.rsimageoptimplugin
 
 - (void)userStart
 {
+    NSLog(@"Start NCSimulatorPlugin");
      __weak typeof(self)weakSelf = self;
-    [[NSNotificationCenter defaultCenter] addObserverForName:NSWindowDidBecomeKeyNotification object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification *note) {
-        [weakSelf refresh:nil];
-    }];
-    
+//    [[NSNotificationCenter defaultCenter] addObserverForName:NSWindowDidBecomeKeyNotification object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification *note) {
+//        [weakSelf refresh:nil];
+//    }];
+//    
     [[NSNotificationCenter defaultCenter] addObserverForName:NSWindowDidBecomeMainNotification object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification *note) {
         [weakSelf refresh:nil];
     }];
-    
     
     
     [[NSNotificationCenter defaultCenter] addObserverForName:NSWindowDidResignKeyNotification object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification *note) {
@@ -108,21 +108,10 @@ static NSString *const kRSImageOptimPluginAutoKey = @"com.pdq.rsimageoptimplugin
     
     
     
-    
-    
-    
-    
-    
-    
-    
     [self refresh:nil];
 }
 
 
-- (void)addMenuApp:(NCAppFolder*)app index:(int)i
-{
-    
-}
 
 -(void)setMenuItems:(NSDictionary*)userInfo {
     
@@ -154,19 +143,15 @@ static NSString *const kRSImageOptimPluginAutoKey = @"com.pdq.rsimageoptimplugin
     
     
     NSMenuItem *item = [[NSMenuItem alloc] initWithTitle:name action:nil keyEquivalent:@""];
+    [item setEnabled:NO];
     [simulator addItem:item];
     
     
-    NSMenuItem * separatorItem = [NSMenuItem separatorItem];
-    [simulator addItem:separatorItem];
+    NSMenuItem * separatorItem ;
     
     item = [[NSMenuItem alloc] initWithTitle:@"Refresh" action:@selector(refresh:) keyEquivalent:@""];
     [item setTarget:self];
     [simulator addItem:item];
-    
-    
-    separatorItem = [NSMenuItem separatorItem];
-    [simulator addItem:separatorItem];
     
     
     NSString * simulatorIdentifier = [NCUtils simulatorIdentifier];
@@ -188,6 +173,7 @@ static NSString *const kRSImageOptimPluginAutoKey = @"com.pdq.rsimageoptimplugin
                 [simulator addItem:separatorItem];
                 
                 item = [[NSMenuItem alloc] initWithTitle:@"Current App" action:NULL keyEquivalent:@""];
+                [item setEnabled:NO];
                 [simulator addItem:item];
                 
                 NSMenu *submenu = [[NSMenu alloc] initWithTitle:@""];
@@ -221,6 +207,7 @@ static NSString *const kRSImageOptimPluginAutoKey = @"com.pdq.rsimageoptimplugin
         [simulator addItem:separatorItem];
         
         item = [[NSMenuItem alloc] initWithTitle:@"Other Apps" action:NULL keyEquivalent:@""];
+        [item setEnabled:NO];
         [simulator addItem:item];
         
         

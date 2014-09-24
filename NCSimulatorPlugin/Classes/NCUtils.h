@@ -18,4 +18,6 @@ typedef void (^GetUserInfo)(NSDictionary* userInfo);
 + (NSString*)targetDeviceName;
 + (void)getUserInfo:(GetUserInfo)block;
 
+void NCLog(NSString *tag , NSString *log);
+
 @end
