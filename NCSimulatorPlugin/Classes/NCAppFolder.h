@@ -24,7 +24,7 @@
 - (void)openApplicationDirectory;
 
 + (NSArray*)applicationsforSimulator:(NSString*)deviceIdentifier;
-
++ (BOOL)ios7Vesion:(NSString*)simulatorIdentifier;
 
 
 @end

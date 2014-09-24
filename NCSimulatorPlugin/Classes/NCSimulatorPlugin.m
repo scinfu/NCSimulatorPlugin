@@ -203,11 +203,13 @@ static NSString *const kRSImageOptimPluginAutoKey = @"com.pdq.rsimageoptimplugin
                 [submenu addItem:goToDocuments];
                 
                 
-                
-                NSMenuItem *goToApplication = [[NSMenuItem alloc] initWithTitle:@"Go To Application" action:@selector(goToApplication:) keyEquivalent:@""];
-                [goToApplication setTarget:self];
-                [goToApplication setTag:i];
-                [submenu addItem:goToApplication];
+                if([NCAppFolder ios7Vesion:app.simulatorIdentifier] == NO)
+                {
+                    NSMenuItem *goToApplication = [[NSMenuItem alloc] initWithTitle:@"Go To Application" action:@selector(goToApplication:) keyEquivalent:@""];
+                    [goToApplication setTarget:self];
+                    [goToApplication setTag:i];
+                    [submenu addItem:goToApplication];
+                }
                 
                 break;
             }
@@ -240,12 +242,14 @@ static NSString *const kRSImageOptimPluginAutoKey = @"com.pdq.rsimageoptimplugin
                 [submenu addItem:goToDocuments];
                 
                 
-                
-                NSMenuItem *goToApplication = [[NSMenuItem alloc] initWithTitle:@"Go To Application" action:@selector(goToApplication:) keyEquivalent:@""];
-                [goToApplication setTarget:self];
-                [goToApplication setTag:i];
-                [submenu addItem:goToApplication];
-            }            
+                if([NCAppFolder ios7Vesion:app.simulatorIdentifier] == NO)
+                {
+                    NSMenuItem *goToApplication = [[NSMenuItem alloc] initWithTitle:@"Go To Application" action:@selector(goToApplication:) keyEquivalent:@""];
+                    [goToApplication setTarget:self];
+                    [goToApplication setTag:i];
+                    [submenu addItem:goToApplication];
+                }
+            }
             i++;
         }
     }
