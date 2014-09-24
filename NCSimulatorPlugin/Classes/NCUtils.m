@@ -65,36 +65,39 @@
     return @"";
 }
 
-//+ (void)doB:(NSString*)path
-//{
-//    
-//    IDEWorkspace *workspace = [NCUtils workspaceForKeyWindow];
-//    IDEWorkspaceArena * workspaceArena = [workspace workspaceArena];
-//    IDERunContextManager * runContextManager = [workspace valueForKey:@"runContextManager"];
-//    IDEScheme *activeScheme = [runContextManager valueForKey:@"activeRunContext"];
-//    IDERunDestination * activeRunDestination = runContextManager.activeRunDestination;
-//    
-//    NSString * buildConfiguration = activeScheme.launchSchemeAction.buildConfiguration;
-//    
-//    
-//    
-//    
-//    NSAlert *alert = [[NSAlert alloc] init];
-//    [alert setAlertStyle:NSInformationalAlertStyle];
-//    [alert setMessageText:@"help"];
-//    [alert setInformativeText:[NSString stringWithFormat:@"%@",activeScheme.launchSchemeAction.]];
-//    [alert runModal];
-//    
-//}
++(NSString*)stringBetweenString:(NSString*)start andString:(NSString *)end withstring:(NSString*)str
+{
+    NSScanner* scanner = [NSScanner scannerWithString:str];
+    [scanner setCharactersToBeSkipped:nil];
+    [scanner scanUpToString:start intoString:NULL];
+    if ([scanner scanString:start intoString:NULL]) {
+        NSString* result = nil;
+        if ([scanner scanUpToString:end intoString:&result]) {
+            return result;
+        }
+    }
+    return nil;
+}
+
++ (NSArray*)stringsBetweenString:(NSString*)start andString:(NSString*)end inString:(NSString*)inString
+{
+
+    NSCharacterSet *delimiters = [NSCharacterSet characterSetWithCharactersInString:[NSString stringWithFormat:@"%@%@",start,end]];
+    NSArray *splitString = [inString componentsSeparatedByCharactersInSet:delimiters];
+    return splitString;
+    
+}
 
 
 + (void)getUserInfo:(GetUserInfo)block
 {
     if([[self class]workspaceDirectoryPath])
     {
-        [[self class]runShellCommand:@"/Applications/Xcode.app/Contents/Developer/usr/bin/xcodebuild" withArgs:@[@"-showBuildSettings"] directory:[[self class]workspaceDirectoryPath] completion:^(NSTask *t, NSString *standardOutput, NSString *standardErr) {
-            [[NSOperationQueue mainQueue]addOperationWithBlock:^{
-
+        [[self class]runShellCommandCMD:@"/Applications/Xcode.app/Contents/Developer/usr/bin/xcodebuild" withArgs:@[@"-showBuildSettings"] directoryPath:[[self class]workspaceDirectoryPath] completion:^(NSTask *t, NSString *standardOutput, NSString *standardErr) {
+            
+            NSOperationQueue *queue = [NSOperationQueue new];
+            [queue addOperationWithBlock:^{
+                
                 NSArray * testArray = [standardOutput componentsSeparatedByString:@"\n"];
                 NSMutableDictionary *dict = [NSMutableDictionary dictionary];
                 for (NSString *s in testArray)
@@ -107,77 +110,129 @@
                         [dict setObject:value forKey:key];
                     }
                 }
-                
                 NSString * BUILD_DIR = [dict objectForKey:@"BUILD_DIR"];
                 NSString * INFOPLIST_PATH = [dict objectForKey:@"INFOPLIST_PATH"];
-
                 IDEWorkspace *workspace = [NCUtils workspaceForKeyWindow];
-//                IDEWorkspaceArena * workspaceArena = [workspace workspaceArena];
                 IDERunContextManager * runContextManager = [workspace valueForKey:@"runContextManager"];
                 IDEScheme *activeScheme = [runContextManager valueForKey:@"activeRunContext"];
-//                IDERunDestination * activeRunDestination = runContextManager.activeRunDestination;
-                
                 NSString * buildConfiguration = activeScheme.launchSchemeAction.buildConfiguration;
-                NSString *path = [NSString stringWithFormat:@"%@/%@-iphonesimulator/%@",BUILD_DIR,buildConfiguration,INFOPLIST_PATH];
+                buildConfiguration = buildConfiguration ? buildConfiguration : @"Debug";
+                NSString *path = [[[BUILD_DIR stringByAppendingPathComponent:buildConfiguration]stringByAppendingString:@"-iphonesimulator"]stringByAppendingPathComponent:INFOPLIST_PATH];
                 NSDictionary *d = [NSDictionary dictionaryWithContentsOfFile:path];
-//                NSString *bundle = [d objectForKey:@"CFBundleIdentifier"];
-//                NSAlert *alert = [[NSAlert alloc] init];
-//                [alert setAlertStyle:NSInformationalAlertStyle];
-//                [alert setMessageText:@"help"];
-//                [alert setInformativeText:[NSString stringWithFormat:@"%@",bundle]];
-//                [alert runModal];
-                
-                block(d);
-                
+                if(d == nil)
+                {
+                    d = [NSDictionary dictionaryWithContentsOfFile:[[[self class]workspaceDirectoryPath] stringByAppendingPathComponent:[dict objectForKey:@"INFOPLIST_FILE"]]];
+                    
+                    if(d)
+                    {
+                        for(NSString * key in d.allKeys)
+                        {
+                            NSString *value = [d objectForKey:key];
+                            if([value isKindOfClass:[NSString class]])
+                            {
+                                NCLog(key , [NSString stringWithFormat:@"value:%@",value]);
+                                
+                                NSArray *tags = [[self class]stringsBetweenString:@"${" andString:@"}" inString:value];
+                                for(NSString * aTag in tags)
+                                {
+                                    NSString *effectiveName = [dict objectForKey:aTag];
+                                    effectiveName = effectiveName ? effectiveName : @"";
+                                    NSString * tag = [NSString stringWithFormat:@"${%@}",aTag];
+                                    value = [value stringByReplacingOccurrencesOfString:tag withString:effectiveName];
+                                }
+                                
+                                [d setValue:value forKey:key];
+                            }
+                        }
+                    }
+                }
+                [[NSOperationQueue mainQueue]addOperationWithBlock:^{
+                    block(d);
+                }];
             }];
-
-        
+            
         }];
     }
     
     
 }
 
-+ (void)runShellCommand:(NSString *)command withArgs:(NSArray *)args directory:(NSString *)directory completion:(void(^)(NSTask *t, NSString *standardOutput, NSString *standardErr))completion {
++ (void)runShellCommandCMD:(NSString *)command withArgs:(NSArray *)args directoryPath:(NSString *)path completion:(void(^)(NSTask *t, NSString *standardOutput, NSString *standardErr))completion {
     __block NSMutableData *taskOutput = [NSMutableData new];
     __block NSMutableData *taskError  = [NSMutableData new];
     
-    NSTask *task = [NSTask new];
+    NSTask *taskRunner = [NSTask new];
     
-    //  NSLog(@"command directory: %@", directory);
-    task.currentDirectoryPath = directory;
-    task.launchPath = command;
-    task.arguments  = args;
+    taskRunner.currentDirectoryPath = path;
+    taskRunner.arguments  = args;
+    taskRunner.launchPath = command;
     
-    task.standardOutput = [NSPipe pipe];
-    task.standardError  = [NSPipe pipe];
+    taskRunner.standardOutput = [NSPipe pipe];
+    taskRunner.standardError  = [NSPipe pipe];
     
-    [[task.standardOutput fileHandleForReading] setReadabilityHandler:^(NSFileHandle *file) {
+    [[taskRunner.standardOutput fileHandleForReading] setReadabilityHandler:^(NSFileHandle *file) {
         [taskOutput appendData:[file availableData]];
     }];
     
-    [[task.standardError fileHandleForReading] setReadabilityHandler:^(NSFileHandle *file) {
+    [[taskRunner.standardError fileHandleForReading] setReadabilityHandler:^(NSFileHandle *file) {
         [taskError appendData:[file availableData]];
     }];
     
-    [task setTerminationHandler:^(NSTask *t) {
+    [taskRunner setTerminationHandler:^(NSTask *t) {
         [t.standardOutput fileHandleForReading].readabilityHandler = nil;
         [t.standardError fileHandleForReading].readabilityHandler  = nil;
         NSString *output = [[NSString alloc] initWithData:taskOutput encoding:NSUTF8StringEncoding];
         NSString *error = [[NSString alloc] initWithData:taskError encoding:NSUTF8StringEncoding];
-        NSLog(@"Shell command output: %@", output);
-        NSLog(@"Shell command error: %@", error);
         if (completion) completion(t, output, error);
     }];
     
     @try {
-        [task launch];
+        [taskRunner launch];
     }
     @catch (NSException *exception) {
-        NSLog(@"Failed to launch: %@", exception);
+         if (completion) completion(nil, nil, @"Error");
     }
 }
 
+void NCLog(NSString *tag , NSString *log)
+{
+//    NSString *path = @"/Users/scinfu/Desktop/log.txt";
+//    NSString *myLog = [NSString stringWithContentsOfFile:path encoding:NSUTF8StringEncoding error:nil];
+//    myLog = myLog ? myLog : @"";
+//    myLog = [myLog stringByAppendingFormat:@"\n\n\n%@ : %@\n\n\n",tag,log];
+//    [myLog writeToFile:path atomically:YES encoding:NSUTF8StringEncoding error:nil];
+}
+
+//+ (void)doExport:(NSString*)string name:(NSString*)name
+//{
+//    [string writeToFile:name atomically:YES encoding:NSUTF8StringEncoding error:nil];
+//    
+//    
+//    
+////    NSOpenPanel* openDlg = [NSOpenPanel openPanel];
+////    // Enable the selection of files in the dialog.
+////    [openDlg setCanChooseFiles:NO];
+////    // Multiple files not allowed
+////    [openDlg setAllowsMultipleSelection:NO];
+////    // Can't select a directory
+////    [openDlg setCanChooseDirectories:YES];
+////    // Display the dialog. If the OK button was pressed,
+////    [openDlg setCanCreateDirectories:YES];
+////    // process the files.
+////    if ( [openDlg runModal] == NSOKButton )
+////    {
+////        NSString * pathDest =[[openDlg.URL path]stringByAppendingFormat:@"/%@",name];
+////        [string writeToFile:pathDest atomically:YES];
+////    }
+//
+//
+//
+////    NSAlert *alert = [[NSAlert alloc] init];
+////    [alert setAlertStyle:NSInformationalAlertStyle];
+////    [alert setMessageText:@"ddd"];
+////    [alert setInformativeText:string];
+////    [alert runModal];
+//}
 
 
 
