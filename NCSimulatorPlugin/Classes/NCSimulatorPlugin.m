@@ -20,6 +20,17 @@ static NCSimulatorPlugin *sharedPlugin;
     NSMenu *simulator ;
     NSMutableArray * applications;
     NCAppFolder *currentApp;
+    NSMenuItem * refreshItem;
+    NSOperationQueue *queue;
+    NSOperationQueue *queueVersion;
+    
+    NSMenuItem * versionItem;
+    BOOL initialized;
+    NSString *currentVersion;
+    NSString * currentAppVersionString;
+    NSString *masterVersion;
+    NSString *masterAppVersionString;
+    
 }
 
 @property (nonatomic, strong) NSBundle *bundle;
@@ -27,9 +38,6 @@ static NCSimulatorPlugin *sharedPlugin;
 @property (nonatomic, strong) NSArray *imageExtensions;
 
 @end
-
-static NSString *const kRSImageOptimPlugin        = @"com.pdq.rsimageoptimplugin";
-static NSString *const kRSImageOptimPluginAutoKey = @"com.pdq.rsimageoptimplugin.auto";
 
 @implementation NCSimulatorPlugin
 
@@ -63,6 +71,22 @@ static NSString *const kRSImageOptimPluginAutoKey = @"com.pdq.rsimageoptimplugin
         NSMenuItem *item = [[NSMenuItem alloc] initWithTitle:@"Initialize" action:@selector(userStart) keyEquivalent:@""];
         [item setTarget:self];
         [simulator addItem:item];
+        
+        
+        
+        NSMenuItem *separatorItem = [NSMenuItem separatorItem];
+        [simulator addItem:separatorItem];
+        
+        
+        NSDictionary *currentD = [_bundle infoDictionary];
+        currentVersion = [currentD valueForKey:@"CFBundleVersion"];
+        currentAppVersionString = [currentD valueForKey:@"CFBundleShortVersionString"];
+        NSString *v = [NSString stringWithFormat:@"NCSimulator Version %@(%@)",currentAppVersionString,currentVersion];
+        versionItem = [[NSMenuItem alloc] initWithTitle:v action:@selector(goToGitHub:) keyEquivalent:@""];
+        [versionItem setTarget:self];
+        [simulator addItem:versionItem];
+        
+        [self chackUpdate];
     }
     return self;
 }
@@ -147,15 +171,14 @@ static NSString *const kRSImageOptimPluginAutoKey = @"com.pdq.rsimageoptimplugin
     [simulator addItem:item];
     
     
-    NSMenuItem * separatorItem ;
     
-    item = [[NSMenuItem alloc] initWithTitle:@"Refresh" action:@selector(refresh:) keyEquivalent:@""];
-    [item setTarget:self];
-    [simulator addItem:item];
+    refreshItem = [[NSMenuItem alloc] initWithTitle:@"Refresh" action:@selector(refresh:) keyEquivalent:@""];
+    [refreshItem setTarget:self];
+    [simulator addItem:refreshItem];
     
     
     NSString * simulatorIdentifier = [NCUtils simulatorIdentifier];
-    
+    NSMenuItem * separatorItem ;
     if(simulatorIdentifier)
     {
         NSArray *items = [NCAppFolder applicationsforSimulator:simulatorIdentifier];
@@ -241,29 +264,117 @@ static NSString *const kRSImageOptimPluginAutoKey = @"com.pdq.rsimageoptimplugin
         }
     }
     
+    separatorItem = [NSMenuItem separatorItem];
+    [simulator addItem:separatorItem];
+    [simulator addItem:versionItem];
+    
 }
 
 -(void)refresh:(id)sender
 {
-    __weak typeof(self)weakSelf = self;
-    [NCUtils getUserInfo:^(NSDictionary *userInfo)
-     {
-         [weakSelf setMenuItems:userInfo];
-     }];
+    
+    if(queue == nil)
+    {
+        queue = [[NSOperationQueue  alloc]init];
+        queue.maxConcurrentOperationCount = 1;
+    }
+    
+    if(queue.operationCount > 0)
+    {
+        [queue cancelAllOperations];
+    }
+    
+
+    [refreshItem setTitle:@"Refreshing..."];
+    
+    [queue addOperationWithBlock:^{
+        __weak typeof(self)weakSelf = self;
+        [NCUtils getUserInfo:^(NSDictionary *userInfo)
+         {
+             dispatch_async(dispatch_get_main_queue(), ^{
+                 [refreshItem setTitle:@"Refresh"];
+                 [weakSelf setMenuItems:userInfo];
+                 [weakSelf chackUpdate];
+             });
+         }];
+    }];
+    
+    [self chackUpdate];
+}
+
+- (void)chackUpdate
+{
+    if(queueVersion == nil)
+    {
+        queueVersion = [[NSOperationQueue alloc]init];
+        queueVersion.maxConcurrentOperationCount = 1;
+    }
+    
+    if(queueVersion.operationCount == 0)
+    {
+        if(masterVersion == nil)
+        {
+            [queueVersion addOperationWithBlock:^{
+                NSURL *url = [NSURL URLWithString:@"https://github.com/scinfu/NCSimulatorPlugin/raw/master/NCSimulatorPlugin/NCSimulatorPlugin-Info.plist"];
+                NSDictionary *masterD = [[NSDictionary alloc]initWithContentsOfURL:url];
+                
+                masterVersion = [masterD valueForKey:@"CFBundleVersion"];
+                masterAppVersionString = [masterD valueForKey:@"CFBundleShortVersionString"];
+                if(masterVersion)
+                {
+                    NCLog(@"Master Version: ", masterVersion);
+                    if([currentVersion caseInsensitiveCompare:masterVersion] == NSOrderedAscending)
+                    {
+                        dispatch_async(dispatch_get_main_queue(), ^{
+                            NSString *v = [NSString stringWithFormat:@"An update is available Version %@(%@)",masterAppVersionString,masterVersion];
+                            [versionItem setTitle:v];
+                        });
+                        
+                    }
+                }
+                
+            }];
+        }
+    }
 }
 
 
 -(void)goToDocuments:(NSMenuItem*)sender {
-    NCAppFolder * app = [applications objectAtIndex:sender.tag];
-    [app openDocumentsDirectory];
+    @try {
+        NCAppFolder * app = [applications objectAtIndex:sender.tag];
+        [app openDocumentsDirectory];
+    }
+    @catch (NSException *exception) {
+        NCLog(@"NSException",exception.description);
+    }
+    @finally {
+        
+    }
+    
 }
 
 
 -(void)goToApplication:(NSMenuItem*)sender {
-    NCAppFolder * app = [applications objectAtIndex:sender.tag];
-    [app openApplicationDirectory];
+    
+    @try {
+        NCAppFolder * app = [applications objectAtIndex:sender.tag];
+        [app openApplicationDirectory];
+    }
+    @catch (NSException *exception) {
+        NCLog(@"NSException",exception.description);
+    }
+    @finally {
+        
+    }
 }
 
+
+-(void)goToGitHub:(NSMenuItem*)sender {
+    
+    NSURL *URL = [NSURL URLWithString:@"https://github.com/scinfu/NCSimulatorPlugin"];
+    [[NSWorkspace sharedWorkspace] openURL:URL];
+    
+}
 
 
 

@@ -194,46 +194,38 @@
     }
 }
 
-void NCLog(NSString *tag , NSString *log)
+
+//code snipped from https://github.com/AlexIzh/PluginConsole
+void NCLog(NSString *tag , NSString *msg)
 {
-//    NSString *path = @"/Users/scinfu/Desktop/log.txt";
-//    NSString *myLog = [NSString stringWithContentsOfFile:path encoding:NSUTF8StringEncoding error:nil];
-//    myLog = myLog ? myLog : @"";
-//    myLog = [myLog stringByAppendingFormat:@"\n\n\n%@ : %@\n\n\n",tag,log];
-//    [myLog writeToFile:path atomically:YES encoding:NSUTF8StringEncoding error:nil];
+//    [[NSOperationQueue mainQueue]addOperationWithBlock:^{
+//        NSString *logString = [NSString stringWithFormat:@"%@: %@",tag,msg];
+//        if(logString)
+//        {
+//            for (NSWindow *window in [NSApp windows]) {
+//                NSView *contentView = window.contentView;
+//                IDEConsoleTextView *console = [NCUtils consoleViewInMainView:contentView];
+//                console.logMode = 1;
+//                [console insertText:logString];
+//                [console insertNewline:@""];
+//            }
+//        }
+//    }];
 }
-
-//+ (void)doExport:(NSString*)string name:(NSString*)name
-//{
-//    [string writeToFile:name atomically:YES encoding:NSUTF8StringEncoding error:nil];
-//    
-//    
-//    
-////    NSOpenPanel* openDlg = [NSOpenPanel openPanel];
-////    // Enable the selection of files in the dialog.
-////    [openDlg setCanChooseFiles:NO];
-////    // Multiple files not allowed
-////    [openDlg setAllowsMultipleSelection:NO];
-////    // Can't select a directory
-////    [openDlg setCanChooseDirectories:YES];
-////    // Display the dialog. If the OK button was pressed,
-////    [openDlg setCanCreateDirectories:YES];
-////    // process the files.
-////    if ( [openDlg runModal] == NSOKButton )
-////    {
-////        NSString * pathDest =[[openDlg.URL path]stringByAppendingFormat:@"/%@",name];
-////        [string writeToFile:pathDest atomically:YES];
-////    }
-//
-//
-//
-////    NSAlert *alert = [[NSAlert alloc] init];
-////    [alert setAlertStyle:NSInformationalAlertStyle];
-////    [alert setMessageText:@"ddd"];
-////    [alert setInformativeText:string];
-////    [alert runModal];
-//}
-
-
+//code snipped from https://github.com/AlexIzh/PluginConsole
++ (IDEConsoleTextView *)consoleViewInMainView:(NSView *)mainView
+{
+    for (NSView *childView in mainView.subviews) {
+        if ([childView isKindOfClass:NSClassFromString(@"IDEConsoleTextView")]) {
+            return (IDEConsoleTextView *)childView;
+        } else {
+            NSView *v = [self consoleViewInMainView:childView];
+            if ([v isKindOfClass:NSClassFromString(@"IDEConsoleTextView")]) {
+                return (IDEConsoleTextView *)v;
+            }
+        }
+    }
+    return nil;
+}
 
 @end
