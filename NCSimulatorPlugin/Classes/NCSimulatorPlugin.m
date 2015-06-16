@@ -59,36 +59,63 @@ static NCSimulatorPlugin *sharedPlugin;
     if (self = [super init]) {
         self.bundle = plugin;
         applications = [NSMutableArray array];
-        
-        NSMenu *mainMenu = [NSApp mainMenu];
-        // create a new menu and add a new item
-        simulator = [[NSMenu alloc] initWithTitle:@"Simulator"];
-        // add the newly created menu to the main menu bar
-        NSMenuItem *newMenuItem = [[NSMenuItem alloc] initWithTitle:@"Simulator" action:NULL keyEquivalent:@""];
-        [newMenuItem setSubmenu:simulator];
-        [mainMenu addItem:newMenuItem];
-        
-        NSMenuItem *item = [[NSMenuItem alloc] initWithTitle:@"Initialize" action:@selector(userStart) keyEquivalent:@""];
-        [item setTarget:self];
-        [simulator addItem:item];
-        
-        
-        
-        NSMenuItem *separatorItem = [NSMenuItem separatorItem];
-        [simulator addItem:separatorItem];
-        
-        
-        NSDictionary *currentD = [_bundle infoDictionary];
-        currentVersion = [currentD valueForKey:@"CFBundleVersion"];
-        currentAppVersionString = [currentD valueForKey:@"CFBundleShortVersionString"];
-        NSString *v = [NSString stringWithFormat:@"NCSimulator Version %@(%@)",currentAppVersionString,currentVersion];
-        versionItem = [[NSMenuItem alloc] initWithTitle:v action:@selector(goToGitHub:) keyEquivalent:@""];
-        [versionItem setTarget:self];
-        [simulator addItem:versionItem];
-        
-        [self chackUpdate];
+
+        [[NSNotificationCenter defaultCenter] addObserver: self
+                                                 selector: @selector(menuDidChange:)
+                                                     name: NSMenuDidChangeItemNotification
+                                                   object: nil];
     }
     return self;
+}
+
+- (void)dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
+- (void) menuDidChange: (NSNotification *) notification {
+    [[NSNotificationCenter defaultCenter] removeObserver: self
+                                                    name: NSMenuDidChangeItemNotification
+                                                  object: nil];
+
+    if (![self hasMenu]) {
+        [self createMenu];
+        [self chackUpdate];
+    }
+
+    [[NSNotificationCenter defaultCenter] addObserver: self
+                                             selector: @selector(menuDidChange:)
+                                                 name: NSMenuDidChangeItemNotification
+                                               object: nil];
+}
+
+- (void)createMenu
+{
+    NSMenu *mainMenu = [NSApp mainMenu];
+    // create a new menu and add a new item
+    simulator = [[NSMenu alloc] initWithTitle:@"Simulator"];
+    // add the newly created menu to the main menu bar
+    NSMenuItem *newMenuItem = [[NSMenuItem alloc] initWithTitle:@"Simulator" action:NULL keyEquivalent:@""];
+    [newMenuItem setSubmenu:simulator];
+    [mainMenu addItem:newMenuItem];
+
+    NSMenuItem *item = [[NSMenuItem alloc] initWithTitle:@"Initialize" action:@selector(userStart) keyEquivalent:@""];
+    [item setTarget:self];
+    [simulator addItem:item];
+
+
+
+    NSMenuItem *separatorItem = [NSMenuItem separatorItem];
+    [simulator addItem:separatorItem];
+
+
+    NSDictionary *currentD = [_bundle infoDictionary];
+    currentVersion = [currentD valueForKey:@"CFBundleVersion"];
+    currentAppVersionString = [currentD valueForKey:@"CFBundleShortVersionString"];
+    NSString *v = [NSString stringWithFormat:@"NCSimulator Version %@(%@)",currentAppVersionString,currentVersion];
+    versionItem = [[NSMenuItem alloc] initWithTitle:v action:@selector(goToGitHub:) keyEquivalent:@""];
+    [versionItem setTarget:self];
+    [simulator addItem:versionItem];
 }
 
 - (void)userStart
@@ -135,6 +162,11 @@ static NCSimulatorPlugin *sharedPlugin;
     [self refresh:nil];
 }
 
+-(BOOL)hasMenu
+{
+    NSMenuItem *menu = [[NSApp mainMenu] itemWithTitle:@"Simulator"];
+    return (menu != nil);
+}
 
 
 -(void)setMenuItems:(NSDictionary*)userInfo {
