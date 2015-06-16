@@ -60,15 +60,36 @@ static NCSimulatorPlugin *sharedPlugin;
         self.bundle = plugin;
         applications = [NSMutableArray array];
 
-        [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-          [self initMenu];
-          [self chackUpdate];
-        }];
+        [[NSNotificationCenter defaultCenter] addObserver: self
+                                                 selector: @selector(menuDidChange:)
+                                                     name: NSMenuDidChangeItemNotification
+                                                   object: nil];
     }
     return self;
 }
 
-- (void)initMenu
+- (void)dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
+- (void) menuDidChange: (NSNotification *) notification {
+    [[NSNotificationCenter defaultCenter] removeObserver: self
+                                                    name: NSMenuDidChangeItemNotification
+                                                  object: nil];
+
+    if (![self hasMenu]) {
+        [self createMenu];
+        [self chackUpdate];
+    }
+
+    [[NSNotificationCenter defaultCenter] addObserver: self
+                                             selector: @selector(menuDidChange:)
+                                                 name: NSMenuDidChangeItemNotification
+                                               object: nil];
+}
+
+- (void)createMenu
 {
     NSMenu *mainMenu = [NSApp mainMenu];
     // create a new menu and add a new item
@@ -141,6 +162,11 @@ static NCSimulatorPlugin *sharedPlugin;
     [self refresh:nil];
 }
 
+-(BOOL)hasMenu
+{
+    NSMenuItem *menu = [[NSApp mainMenu] itemWithTitle:@"Simulator"];
+    return (menu != nil);
+}
 
 
 -(void)setMenuItems:(NSDictionary*)userInfo {
