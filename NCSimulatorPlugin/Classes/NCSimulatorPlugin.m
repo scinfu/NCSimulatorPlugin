@@ -254,6 +254,7 @@ static NCSimulatorPlugin *sharedPlugin;
                 
                 break;
             }
+            ++i;
         }
         
         
